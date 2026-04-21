@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyến Đi Đáng Nhớ - Lịch Trình 2026</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d63384;
+            /* Darker Pink */
+            --secondary: #ff85a1;
+            --accent: #a71d5d;
+            /* Much darker for contrast */
+            --bg-page: #fff5f6;
+            --text-main: #1a1516;
+            /* Near black for maximum clarity */
+            --glass-bg: #ffffff;
+            /* Solid white for maximum contrast */
+            --glass-border: #ffb3c1;
+            /* Solid border */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            height: 40vh;
+            background: linear-gradient(to bottom, rgba(255, 245, 246, 0.2), var(--bg-page)),
+                linear-gradient(135deg, #ffc2d1 0%, #ffe5ec 100%);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 1.5s ease-out;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(255, 133, 162, 0.2);
+            z-index: 2;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.8;
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, transparent, var(--bg-page));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        main {
+            max-width: 900px;
+            margin: -100px auto 100px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .day-section {
+            margin-bottom: 4rem;
+        }
+
+        .day-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--secondary);
+        }
+
+        .day-header::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--secondary), transparent);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideIn 0.8s ease-out backwards;
+            box-shadow: 0 4px 15px rgba(255, 133, 162, 0.05);
+            /* Soft shadow for depth */
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px) translateY(-5px);
+            background: rgba(255, 255, 255, 0.9);
+            border-color: var(--primary);
+            box-shadow: 0 15px 35px rgba(255, 133, 162, 0.15);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -41px;
+            top: 25px;
+            width: 20px;
+            height: 20px;
+            background: var(--bg-page);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .time {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--accent);
+        }
+
+        .details {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 400;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            border-radius: 100px;
+            background: rgba(255, 133, 162, 0.1);
+            color: var(--accent);
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 133, 162, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Options Grid System */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .option-card:hover {
+            background: white;
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 133, 162, 0.1);
+        }
+
+        .option-card.highlight {
+            border-color: var(--primary);
+            background: rgba(255, 133, 162, 0.05);
+        }
+
+        .option-icon {
+            font-size: 1.8rem;
+        }
+
+        .option-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .option-card small {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            color: var(--secondary);
+        }
+
+        .breakfast-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .chip {
+            padding: 5px 12px;
+            background: white;
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(255, 133, 162, 0.05);
+        }
+
+        .chip:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .highlight-food {
+            color: #d63384;
+            font-weight: 700;
+        }
+
+        .highlight-place {
+            color: #a71d5d;
+            font-weight: 700;
+        }
+
+        .highlight-cafe {
+            border-color: #ff85a1 !important;
+            background: rgba(255, 133, 162, 0.05) !important;
+            box-shadow: 0 4px 20px rgba(255, 133, 162, 0.1) !important;
+        }
+
+        .highlight-cafe:hover {
+            border-color: var(--primary) !important;
+            box-shadow: 0 15px 35px rgba(167, 29, 93, 0.15) !important;
+        }
+
+        /* Choice Interaction Styles */
+        .choice-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .choice-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .choice-btn:hover {
+            background: rgba(214, 51, 132, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .choice-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 20px rgba(214, 51, 132, 0.2);
+        }
+
+        .choice-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .choice-content.active {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            header {
+                height: 30vh;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Plan đi chơi ở HCM</h1>
+        <p class="subtitle">Lịch trình vi vu TP. Hồ Chí Minh — Ăn chơi, âm nhạc & kỷ niệm 2026</p>
+    </header>
+
+    <main>
+        <!-- THỨ 5 - 25/04 -->
+        <div class="day-section">
+            <h2 class="day-header">Thứ 7, 25 Tháng 4</h2>
+            <div class="timeline">
+
+                <div class="timeline-item" style="animation-delay: 0.1s;">
+                    <span class="time">21:00 — 23:00</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path
+                                d="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5Z" />
+                        </svg>
+                        Khởi hành bay
+                    </h3>
+                    <p class="details">Hành trình bay đêm hướng về thành phố rực rỡ ánh đèn.</p>
+
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.3s;">
+                    <span class="time">23:00 — 23:30</span>
+                    <h3 class="activity-title">Hạ cánh & Rước bạn</h3>
+                    <p class="details">Gặp mặt tại sảnh đón Tân Sơn Nhất. Cùng bắt đầu chuyến hành trình.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.5s;">
+                    <span class="time">Đêm muộn</span>
+                    <h3 class="activity-title">Ăn đêm <span class="highlight-food">há cảo</span></h3>
+                    <p class="details">Lấp đầy chiếc bụng đói với món há cảo nóng hổi, thơm ngon ngay sau khi về phố.
+                    </p>
+
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.7s;">
+                    <span class="time">00:30+</span>
+                    <h3 class="activity-title">Nhận phòng & Nghỉ ngơi</h3>
+                    <p class="details">Về phòng, nghỉ ngơi lấy sức để chuẩn bị cho một ngày bùng nổ ngày mai.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- THỨ 6 - 26/04 -->
+        <div class="day-section">
+            <h2 class="day-header">Chủ Nhật, 26 Tháng 4</h2>
+            <div class="timeline">
+
+                <div class="timeline-item" style="animation-delay: 0.9s;">
+                    <span class="time">11:30 — 13:00</span>
+                    <h3 class="activity-title">Thức dậy & Ăn trưa muộn</h3>
+                    <p class="details">Ngủ nướng một chút tới trưa. Chọn một món ăn trưa muộn lấp đầy chiếc bụng đói:
+                    </p>
+                    <div class="breakfast-chips">
+                        <span class="chip">🍜 Bún bò Huế</span>
+                        <span class="chip">🍲 Hủ tiếu Nam Vang</span>
+                        <span class="chip">🦀 Bún riêu/Canh bún</span>
+                        <span class="chip">🥢 Bún thịt nướng</span>
+                        <span class="chip">🥣 Bánh canh cua</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 1.0s; border-left: 3px dashed var(--secondary); background: rgba(255,133,162,0.02);">
+                    <span class="time">13:00 — 15:00</span>
+                    <h3 class="activity-title" style="color: var(--primary);">Buổi trưa làm gì cho đỡ chán?</h3>
+                    <p class="details">Bạn muốn nghỉ ngơi hồi sức hay tiếp tục vi vu?</p>
+                    
+                    <div class="choice-container" style="margin-top: 15px;">
+                        <button class="choice-btn active" onclick="showChoice('athome', event)">
+                            🏠 Nghỉ tại phòng
+                        </button>
+                        <button class="choice-btn" onclick="showChoice('coffee', event)">
+                            ☕ Đi cà phê chill
+                        </button>
+                    </div>
+
+                    <!-- Lựa chọn: Ở phòng -->
+                    <div id="choice-athome" class="choice-content active">
+                        <div style="padding: 15px; background: white; border-radius: 15px; border: 1px solid var(--glass-border);">
+                            <p style="font-size: 0.9rem;"><strong>Kèo "lười biếng":</strong></p>
+                            <ul style="font-size: 0.85rem; margin-top: 5px; padding-left: 15px;">
+                                <li>🥤 Order trà sữa Homy + chân gà</li>
+                                <li>🎨 Workshop tại nhà (Mua tranh về tô hoặc đồ về lắp ghép)</li>
+                            </ul>
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--glass-border); font-size: 0.85rem;">
+                                <p><strong>Timeline dự kiến:</strong></p>
+                                <ul style="list-style: none; padding-left: 0; margin-top: 5px;">
+                                    <li>⏰ <strong>15:30:</strong> Dậy chuẩn bị đi Fancon.</li>
+                                    <li>⏰ <strong>16:00:</strong> Đi ăn uống (Gợi ý <span class="highlight-food">Food in box</span>).</li>
+                                    <li>⏰ <strong>17:00:</strong> Di chuyển qua Fancon (Dự kiến 18:00 tới).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lựa chọn: Ra ngoài -->
+                    <div id="choice-coffee" class="choice-content">
+                        <div style="padding: 15px; background: white; border-radius: 15px; border: 1px solid var(--glass-border);">
+                            <p style="font-size: 0.9rem;"><strong>Kèo "vi vu":</strong></p>
+                            <ul style="font-size: 0.85rem; margin-top: 5px; padding-left: 15px;">
+                                <li>📍 <span class="highlight-place">Dabao Concept</span>: Vibe cổ điển.</li>
+                                <li>📍 <span class="highlight-place">Farmers Garden</span>: Không gian xanh mát.</li>
+                                <li>📍 <span class="highlight-place">Cà phê trứng 3T</span>: Ngắm phố xá.</li>
+                            </ul>
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--glass-border); font-size: 0.85rem;">
+                                <p><strong>Timeline dự kiến:</strong></p>
+                                <ul style="list-style: none; padding-left: 0; margin-top: 5px;">
+                                    <li>⏰ <strong>14:30:</strong> Chuẩn bị đi cà phê.</li>
+                                    <li>⏰ <strong>15:00:</strong> Di chuyển ra quán ngồi chơi.</li>
+                                    <li>⏰ <strong>16:15:</strong> Di chuyển đi ăn uống (<span class="highlight-food">Food in box</span>).</li>
+                                    <li>⏰ <strong>17:00:</strong> Di chuyển qua Fancon (Dự kiến 18:00 tới).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="timeline-item highlight-cafe" style="animation-delay: 1.2s;">
+                    <span class="time">18:00 — 22:00</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path
+                                d="M12,3V13.55C11.41,13.21 10.73,13 10,13C7.79,13 6,14.79 6,17C6,19.21 7.79,21 10,21C12.21,21 14,19.21 14,17V7H18V3H12Z" />
+                        </svg>
+                        Fancon <span class="highlight-place">Bùi Lan Hương</span>
+                    </h3>
+                    <p class="details">Địa điểm: <strong>Lầu 1 Nhà hát Bến Thành</strong></p>
+                    <p class="details"><strong>18:00:</strong> Có mặt & Check-in | <strong>19:00:</strong> Bắt đầu.</p>
+                    <p class="details">Hòa mình vào không gian Dream Pop. <strong>10:00 PM Giải tán.</strong></p>
+
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 1.3s;">
+                    <span class="time">23:30</span>
+                    <h3 class="activity-title">Về nhà thôi</h3>
+                    <p class="details">Về tới nhà sau một đêm tuyệt vời, nghỉ ngơi thôi nào!</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- THỨ 2 - 27/04 -->
+        <div class="day-section">
+            <h2 class="day-header">Thứ 2, 27 Tháng 4</h2>
+            <div class="timeline">
+
+                <div class="timeline-item" style="animation-delay: 1.5s;">
+                    <span class="time">Sáng — 16:00</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+                        </svg>
+                        Ngủ nướng hồi sức
+                    </h3>
+                    <p class="details">Nghỉ ngơi tuyệt đối từ sáng đến chiều để nạp lại năng lượng cho buổi tối.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 1.6s;">
+                    <span class="time">16:00 — 16:30</span>
+                    <h3 class="activity-title">Thức dậy & Chuẩn bị</h3>
+                    <p class="details">Dậy chuẩn bị đồ đạc để lên đường.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 1.7s;">
+                    <span class="time">16:30 — 17:15</span>
+                    <h3 class="activity-title">Di chuyển đến <span class="highlight-place">Gigamall</span></h3>
+                    <p class="details">Di chuyển qua Gigamall Phạm Văn Đồng.</p>
+                </div>
+
+                <div class="timeline-item highlight-cafe" style="animation-delay: 1.8s;">
+                    <span class="time">17:15 — 19:00</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path
+                                d="M11,9H9V2H7V9H5V2H3V9C3,11.12 4.66,12.84 6.75,12.97V22H9.25V12.97C11.34,12.84 13,11.12 13,9V2H11V9Z" />
+                        </svg>
+                        Ăn uống tại <span class="highlight-place">Gigamall</span>
+                    </h3>
+                    <p class="details">Tới Gigamall lấp đầy chiếc bụng đói.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 2.0s;">
+                    <span class="time">19:00 — 21:30</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M18,3V5H16V3H8V5H6V3H4V21H6V19H8V21H16V19H18V21H20V3H18M18,17H6V7H18V17Z" />
+                        </svg>
+                        Vào coi phim
+                    </h3>
+                    <p class="details">Thưởng thức suất chiếu phim tối.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 2.2s;">
+                    <span class="time">21:30+</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.41,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.59,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+                        </svg>
+                        Xong phim & Ra về
+                    </h3>
+                    <p class="details">Dự kiến đi dạo Sài Gòn tận hưởng không khí đêm rồi mới về phòng.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="day-section">
+            <h2 class="day-header">Thứ 3, 28 Tháng 4</h2>
+            <div class="timeline">
+                <div class="timeline-item" style="animation-delay: 2.3s;">
+                    <span class="time">Sáng — Chiều</span>
+                    <h3 class="activity-title">Tạm chia tay</h3>
+                    <p class="details"><strong>Mint:</strong> Đi làm rồi về nhà nghỉ ngơi.</p>
+                    <p class="details" style="margin-top: 5px;"><strong>Đậu:</strong> Di chuyển qua nhà bạn ở <span class="highlight-place">Vinhome Grand Park (Quận 9)</span> để ở ké.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- THỨ 4 - 29/04 -->
+        <div class="day-section">
+            <h2 class="day-header">Thứ 4, 29 Tháng 4</h2>
+            <div class="timeline">
+
+                <div class="timeline-item" style="animation-delay: 2.5s;">
+                    <span class="time">20:00 — 21:30</span>
+                    <h3 class="activity-title">Gặp lại nhau</h3>
+                    <p class="details">Đậu qua Mint, ăn nhẹ <span class="highlight-food">bột chiên</span> và <strong>chuẩn bị xuất phát đi Đà Lạt lúc 21:30.</strong></p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 2.7s;">
+                    <span class="time">22:00</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path
+                                d="M18,6V17H22V21H2V17H6V6L12,2L18,6M12,4.3L8.3,6.8L12,9.3L15.7,6.8L12,4.3M11,17V11H13V17H11Z" />
+                        </svg>
+                        Bến xe: Hướng về Đà Lạt
+                    </h3>
+                    <p class="details">Chuẩn bị có mặt tại bến xe. Thành phố sương mù đang chờ đợi!</p>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CHỦ NHẬT - 03/05 -->
+        <div class="day-section">
+            <h2 class="day-header">Chủ Nhật, 3 Tháng 5</h2>
+            <div class="timeline">
+                <div class="timeline-item" style="animation-delay: 0.1s;">
+                    <span class="time">Sáng — 14:30</span>
+                    <h3 class="activity-title">Nghỉ ngơi & Ngủ nướng</h3>
+                    <p class="details">Tận hưởng buổi sáng thong thả tại Sài Gòn. Ngủ bù cho chuyến đi Đà Lạt nha!</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.2s;">
+                    <span class="time">14:30 — 15:00</span>
+                    <h3 class="activity-title">Dậy & Chuẩn bị</h3>
+                    <p class="details">Thức dậy, chuẩn bị đồ đạc để đi chơi chiều.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.3s;">
+                    <span class="time">15:00 — 16:00</span>
+                    <h3 class="activity-title">Di chuyển đến <span class="highlight-place">Gigamall</span></h3>
+                    <p class="details">Lên đường qua Gigamall Phạm Văn Đồng.</p>
+                </div>
+
+                <div class="timeline-item highlight-cafe" style="animation-delay: 0.4s;">
+                    <span class="time">16:00 — 18:00</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path
+                                d="M11,13.5V21H5V13.5H11M12,2L17.5,11H6.5L12,2M17.5,13C20,13 22,15 22,17.5C22,20 20,22 17.5,22C15,22 13,20 13,17.5C13,15 15,13 17.5,13Z" />
+                        </svg>
+                        Triển lãm <span class="highlight-place">Van Gogh</span>
+                    </h3>
+                    <p class="details">Hòa mình vào không gian nghệ thuật đa giác quan của danh họa Van Gogh.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.5s;">
+                    <span class="time">19:00+</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path
+                                d="M11,9H9V2H7V9H5V2H3V9C3,11.12 4.66,12.84 6.75,12.97V22H9.25V12.97C11.34,12.84 13,11.12 13,9V2H11V9Z" />
+                        </svg>
+                        Đi ăn tối
+                    </h3>
+                    <p class="details">Thưởng thức món <span class="highlight-food">Bánh mì bơ bò nướng Campuchia</span> tại Cống Quỳnh.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.6s;">
+                    <span class="time">20:30+</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.41,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.59,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+                        </svg>
+                        Dạo phố đêm & Họp mặt
+                    </h3>
+                    <p class="details">Ra phố đi bộ chơi, uống <span class="highlight-place">cà phê trứng 3T</span> hoặc ngồi chill tại <span class="highlight-place">Nhà thờ Đức Bà</span>.</p>
+                    <p class="details" style="margin-top: 5px;"><strong>Note:</strong> Rủ thêm Hằng, Hà đi cùng cho vui nè! 🙆‍♀️🙆‍♂️</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.7s;">
+                    <span class="time">23:00</span>
+                    <h3 class="activity-title">Về ngủ sớm</h3>
+                    <p class="details">Về phòng nghỉ ngơi sớm để lấy sức cho ngày cuối cùng tại Sài Gòn.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- THỨ 2 - 04/05 -->
+        <div class="day-section">
+            <h2 class="day-header">Thứ 2, 4 Tháng 5</h2>
+            <div class="timeline">
+                <div class="timeline-item" style="animation-delay: 0.1s;">
+                    <span class="time">06:00 — 08:00</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M2,21V19H20V21H2M20,8V5H18V8H20M20,3A2,2 0 0,1 22,5V8A2,2 0 0,1 20,10H18V13A4,4 0 0,1 14,17H8A4,4 0 0,1 4,13V3H20M16,5H6V13A2,2 0 0,0 8,15H14A2,2 0 0,0 16,13V5Z" />
+                        </svg>
+                        Cà phê bệt & Bánh mì
+                    </h3>
+                    <p class="details">Uống cà phê bệt Nhà Thờ. Order <span class="highlight-food">Bánh mì</span> cạp tại chỗ, tận hưởng không khí sáng sớm.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.2s; border-left: 3px dashed var(--secondary); background: rgba(255,133,162,0.02);">
+                    <span class="time">08:15 — 10:30</span>
+                    <h3 class="activity-title" style="color: var(--primary);">Tham quan buổi sáng</h3>
+                    <p class="details">Chọn một địa điểm để check-in:</p>
+                    
+                    <div class="choice-container" style="margin-top: 15px;">
+                        <button class="choice-btn active" onclick="showChoice('palace', event)">
+                            🏛️ Dinh Độc Lập
+                        </button>
+                        <button class="choice-btn" onclick="showChoice('zoo', event)">
+                            🐾 Thảo Cầm Viên
+                        </button>
+                    </div>
+
+                    <div id="choice-palace" class="choice-content active">
+                        <div style="padding: 15px; background: white; border-radius: 15px; border: 1px solid var(--glass-border);">
+                            <p style="font-size: 0.85rem;">Ngắm nhìn kiến trúc hoài cổ và không gian xanh mát của Dinh.</p>
+                        </div>
+                    </div>
+
+                    <div id="choice-zoo" class="choice-content">
+                        <div style="padding: 15px; background: white; border-radius: 15px; border: 1px solid var(--glass-border);">
+                            <p style="font-size: 0.85rem;">Dạo chơi, ngắm thú và tận hưởng bóng mát cây xanh.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.3s;">
+                    <span class="time">10:30 — 12:00</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z" />
+                        </svg>
+                        Mall Time & Ăn trưa
+                    </h3>
+                    <p class="details">Vào Trung tâm thương mại tránh nóng. Thưởng thức <span class="highlight-food">Mì Ramen</span> hoặc <span class="highlight-food">Udon</span> cho mát người.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.4s;">
+                    <span class="time">12:00</span>
+                    <h3 class="activity-title">Mua dừa tắc & Về nhà</h3>
+                    <p class="details">Ghé mua <span class="highlight-food">Dừa tắc</span> mát lạnh rồi thẳng tiến về nhà.</p>
+                </div>
+
+                <div class="timeline-item" style="animation-delay: 0.5s;">
+                    <span class="time">Trưa — Tối</span>
+                    <h3 class="activity-title">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.41,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.59,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+                        </svg>
+                        Nghỉ ngơi hồi sức
+                    </h3>
+                    <p class="details">Ở nhà nghỉ ngơi, "ôm nhau ngủ" bù sức sau chuyến đi dài. Kết thúc hành trình đầy kỷ niệm.</p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    </footer>
+
+    <script>
+        function showChoice(choice, event) {
+            // Find the closest day-section to scoped the selection
+            const daySection = event.currentTarget.closest('.day-section');
+            
+            // Update buttons within this section
+            daySection.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Update content sections within this section
+            daySection.querySelectorAll('.choice-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            daySection.querySelector('#choice-' + choice).classList.add('active');
+        }
+    </script>
+
+</body>
+
+</html>
